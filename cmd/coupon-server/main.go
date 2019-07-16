@@ -40,7 +40,7 @@ type CouponRetriever struct {
 func (ds *ActualDataStore) GetAllCoupons() []Coupon {
 	var couponList []Coupon
 
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/coupons")
+	db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
 
 	result, err := db.Query("SELECT * FROM coupons")
 	for result.Next() {
@@ -57,7 +57,7 @@ func (ds *ActualDataStore) GetAllCoupons() []Coupon {
 func (ds *ActualDataStore) GetSingleCoupon() Coupon {
 	var coupon Coupon
 
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/coupons")
+	db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
 
 	err = db.QueryRow("SELECT * FROM coupons WHERE id = 1").Scan(&coupon.ID, &coupon.Name, &coupon.Brand, &coupon.Value, &coupon.CreatedAt, &coupon.Expiry)
 	if err != nil {
@@ -76,7 +76,7 @@ func (c *CouponRetriever) GetSingleCoupon() Coupon {
 
 func (dbs *ActualDataStore) AddCoupon(coupon Coupon) (int, error) {
 	// Open up our database connection.
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/coupons")
+	db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
 
 	// if there is an error opening the connection, handle it
 	if err != nil {
@@ -117,7 +117,7 @@ func (h *Handler) GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/coupons")
+	db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
 	if err != nil {
 		fmt.Println("Error opening database", err)
 	}
