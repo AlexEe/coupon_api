@@ -1,4 +1,4 @@
-package datastore
+package mysql
 
 import (
 	"database/sql"
@@ -13,7 +13,7 @@ func openDatabase() {
 	// Open up our database connection.
 	// I've set up a database on my local machine using phpmyadmin.
 	// The database is called testDb
-	db, err := sql.Open("mysql", "root:yeitkuchen@tcp(127.0.0.1:3306)/coupon")
+	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/coupon")
 
 	// if there is an error opening the connection, handle it
 	if err != nil {
