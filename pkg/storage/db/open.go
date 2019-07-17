@@ -1,15 +1,12 @@
-package mysql
+package db
 
 import (
 	"database/sql"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func openDatabase() {
-	fmt.Println("Go MySQL Tutorial")
-
+func openDatabase() (*sql.DB, error) {
 	// Open up our database connection.
 	// I've set up a database on my local machine using phpmyadmin.
 	// The database is called testDb
@@ -24,4 +21,5 @@ func openDatabase() {
 	// executing
 	defer db.Close()
 
+	return db, err
 }
