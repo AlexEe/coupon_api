@@ -1,6 +1,7 @@
 package main
 
 import (
+	"coupon_api/pkg/storage/db"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -40,7 +41,8 @@ type CouponRetriever struct {
 func (ds *ActualDataStore) GetAllCoupons() []Coupon {
 	var couponList []Coupon
 
-	db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
+	db, err := db.CreateDatabase()
+	// db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/coupons")
 
 	result, err := db.Query("SELECT * FROM coupons")
 	for result.Next() {
