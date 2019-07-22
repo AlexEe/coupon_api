@@ -30,9 +30,25 @@ func Open() (*sql.DB, error) {
 		fmt.Println("Error decoding config file:", err)
 	}
 
-	// Open db with config settings
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s", conf.User, conf.Password, conf.ServerName, conf.DbName)
-	db, err := sql.Open("mysql", connectionString)
+	// Open mysql without specifying database as admin
+	mysqlConnection := fmt.Sprintf("%s:%s@tcp(%s)/", conf.User, conf.Password, conf.ServerName)
+	db, err := sql.Open("mysql", mysqlConnection)
+	if err != nil {
+		fmt.Println("Error opening database:", err)
+		os.Exit(1)
+		return nil, err
+	}
+
+	// Create database if it doesn't exist
+	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS " + conf.DbName)
+	if err != nil {
+		panic(err)
+	}
+	db.Close()
+
+	// Connect to selected database
+	dbConnection := fmt.Sprintf("%s:%s@tcp(%s)/%s", conf.User, conf.Password, conf.ServerName, conf.DbName)
+	db, err = sql.Open("mysql", dbConnection)
 	if err != nil {
 		fmt.Println("Error opening database:", err)
 		os.Exit(1)
