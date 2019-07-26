@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func GetAllCoupons(res http.ResponseWriter, req *http.Request) {
@@ -37,7 +38,7 @@ func AddCoupon(res http.ResponseWriter, req *http.Request) {
 	if !ok {
 		fmt.Println("Error: Missing parameter 'branch'.")
 	}
-	value := []uint8(valueString[0])
+	value, _ := strconv.ParseFloat(valueString[0], 32)
 
 	created, ok := req.URL.Query()["created"]
 	if !ok {
