@@ -6,9 +6,9 @@ import (
 	"os"
 )
 
-// GetSingleCoupon retrieves a single coupon
-func GetSingleCoupon(column string, content string) Coupon {
-	var cp Coupon
+// GetCouponBy retrieves a single coupon
+func GetCouponBy(column string, content string) []Coupon {
+	var couponList []Coupon
 
 	db, err := db.Open()
 	if db == nil || err != nil {
@@ -19,17 +19,23 @@ func GetSingleCoupon(column string, content string) Coupon {
 
 	query := fmt.Sprintf("SELECT * FROM coupons WHERE %v = '%v'", column, content)
 
-	err = db.QueryRow(query).Scan(&cp.ID, &cp.Name, &cp.Brand, &cp.Value, &cp.CreatedAt, &cp.Expiry)
-	if err != nil {
-		fmt.Println("Error getting coupon from database:", err)
-		os.Exit(1)
+	result, err := db.Query(query)
+	for result.Next() {
+		var coupon Coupon
+		err = result.Scan(&coupon.ID, &coupon.Name, &coupon.Brand, &coupon.Value, &coupon.CreatedAt, &coupon.Expiry)
+		if err != nil {
+			fmt.Println("Error getting coupons from database:", err)
+			os.Exit(1)
+		}
+		couponList = append(couponList, coupon)
 	}
-	return cp
+	return couponList
+
 }
 
-// GetSingleCoupon retrieves a single coupon by value which is a float, not string
-func GetSingleCouponByValue(column string, content float64) Coupon {
-	var cp Coupon
+// GetCouponByValue retrieves a single coupon by value which is a float, not string
+func GetCouponByValue(column string, content float64) []Coupon {
+	var couponList []Coupon
 
 	db, err := db.Open()
 	if db == nil || err != nil {
@@ -40,10 +46,15 @@ func GetSingleCouponByValue(column string, content float64) Coupon {
 
 	query := fmt.Sprintf("SELECT * FROM coupons WHERE %v = '%v'", column, content)
 
-	err = db.QueryRow(query).Scan(&cp.ID, &cp.Name, &cp.Brand, &cp.Value, &cp.CreatedAt, &cp.Expiry)
-	if err != nil {
-		fmt.Println("Error getting coupon from database:", err)
-		os.Exit(1)
+	result, err := db.Query(query)
+	for result.Next() {
+		var coupon Coupon
+		err = result.Scan(&coupon.ID, &coupon.Name, &coupon.Brand, &coupon.Value, &coupon.CreatedAt, &coupon.Expiry)
+		if err != nil {
+			fmt.Println("Error getting coupons from database:", err)
+			os.Exit(1)
+		}
+		couponList = append(couponList, coupon)
 	}
-	return cp
+	return couponList
 }

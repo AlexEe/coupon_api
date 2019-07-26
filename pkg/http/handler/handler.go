@@ -16,13 +16,11 @@ func GetAllCoupons(res http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(res).Encode(data)
 }
 
-func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
-	var data coupon.Coupon
-
+func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 	valueString, ok := req.URL.Query()["value"]
 	if ok {
 		value, _ := strconv.ParseFloat(valueString[0], 32)
-		data = coupon.GetSingleCouponByValue("Value", value)
+		data := coupon.GetCouponByValue("Value", value)
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -30,7 +28,7 @@ func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
 
 	name, ok := req.URL.Query()["name"]
 	if ok {
-		data = coupon.GetSingleCoupon("name", name[0])
+		data := coupon.GetCouponBy("name", name[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -38,7 +36,7 @@ func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
 
 	brand, ok := req.URL.Query()["brand"]
 	if ok {
-		data = coupon.GetSingleCoupon("brand", brand[0])
+		data := coupon.GetCouponBy("brand", brand[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -46,7 +44,7 @@ func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
 
 	created, ok := req.URL.Query()["created"]
 	if ok {
-		data = coupon.GetSingleCoupon("created", created[0])
+		data := coupon.GetCouponBy("created", created[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -54,7 +52,7 @@ func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
 
 	expiry, ok := req.URL.Query()["expiry"]
 	if ok {
-		data = coupon.GetSingleCoupon("expiry", expiry[0])
+		data := coupon.GetCouponBy("expiry", expiry[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
