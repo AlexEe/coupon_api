@@ -9,18 +9,18 @@ import (
 	"strconv"
 )
 
-func GetAllCoupons(res http.ResponseWriter, req *http.Request) {
-	data := coupon.GetAllCoupons()
+func ReadAll(res http.ResponseWriter, req *http.Request) {
+	data := coupon.ReadAll()
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
 	json.NewEncoder(res).Encode(data)
 }
 
-func GetCouponBy(res http.ResponseWriter, req *http.Request) {
+func Read(res http.ResponseWriter, req *http.Request) {
 	valueString, ok := req.URL.Query()["value"]
 	if ok {
 		value, _ := strconv.ParseFloat(valueString[0], 32)
-		data := coupon.GetCouponByValue("Value", value)
+		data := coupon.ReadByValue("Value", value)
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -28,7 +28,7 @@ func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 
 	name, ok := req.URL.Query()["name"]
 	if ok {
-		data := coupon.GetCouponBy("name", name[0])
+		data := coupon.Read("name", name[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -36,7 +36,7 @@ func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 
 	brand, ok := req.URL.Query()["brand"]
 	if ok {
-		data := coupon.GetCouponBy("brand", brand[0])
+		data := coupon.Read("brand", brand[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -44,7 +44,7 @@ func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 
 	created, ok := req.URL.Query()["created"]
 	if ok {
-		data := coupon.GetCouponBy("created", created[0])
+		data := coupon.Read("created", created[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -52,7 +52,7 @@ func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 
 	expiry, ok := req.URL.Query()["expiry"]
 	if ok {
-		data := coupon.GetCouponBy("expiry", expiry[0])
+		data := coupon.Read("expiry", expiry[0])
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
@@ -60,7 +60,7 @@ func GetCouponBy(res http.ResponseWriter, req *http.Request) {
 
 }
 
-func AddCoupon(res http.ResponseWriter, req *http.Request) {
+func Add(res http.ResponseWriter, req *http.Request) {
 	name, ok := req.URL.Query()["name"]
 	if !ok {
 		fmt.Println("Error: Missing parameter 'name'.")

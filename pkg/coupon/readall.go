@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func GetAllCoupons() []Coupon {
+func ReadAll() []Coupon {
 	var couponList []Coupon
 
 	db, err := db.Open()

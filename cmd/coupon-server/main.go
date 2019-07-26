@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/all", handler.GetAllCoupons)
-	http.HandleFunc("/get", handler.GetCouponBy)
-	http.HandleFunc("/add", handler.AddCoupon)
+	http.HandleFunc("/readall", handler.ReadAll)
+	http.HandleFunc("/read", handler.Read)
+	http.HandleFunc("/add", handler.Add)
 
 	http.ListenAndServe(":8080", nil)
 }

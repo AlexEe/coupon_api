@@ -7,7 +7,7 @@ import (
 )
 
 // GetCouponBy retrieves a single coupon
-func GetCouponBy(column string, content string) []Coupon {
+func Read(column string, content string) []Coupon {
 	var couponList []Coupon
 
 	db, err := db.Open()
@@ -34,7 +34,7 @@ func GetCouponBy(column string, content string) []Coupon {
 }
 
 // GetCouponByValue retrieves a single coupon by value which is a float, not string
-func GetCouponByValue(column string, content float64) []Coupon {
+func ReadByValue(column string, content float64) []Coupon {
 	var couponList []Coupon
 
 	db, err := db.Open()
