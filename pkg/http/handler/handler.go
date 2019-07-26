@@ -16,7 +16,11 @@ func GetAllCoupons(res http.ResponseWriter, req *http.Request) {
 }
 
 func GetSingleCoupon(res http.ResponseWriter, req *http.Request) {
-	data := coupon.GetSingleCoupon()
+	name, ok := req.URL.Query()["name"]
+	if !ok {
+		fmt.Println("Error: Missing parameter 'name'.")
+	}
+	data := coupon.GetSingleCoupon(name[0])
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
 	json.NewEncoder(res).Encode(data)

@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/coupons", handler.GetAllCoupons)
-	http.HandleFunc("/coupon", handler.GetSingleCoupon)
+	http.HandleFunc("/listcoupons", handler.GetAllCoupons)
+	http.HandleFunc("/listcoupon", handler.GetSingleCoupon)
 	http.HandleFunc("/add", handler.AddCoupon)
 
 	http.ListenAndServe(":8080", nil)
