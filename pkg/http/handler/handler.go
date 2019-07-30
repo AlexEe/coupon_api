@@ -9,6 +9,15 @@ import (
 	"strconv"
 )
 
+func Update(res http.ResponseWriter, req *http.Request) {
+	id, ok := req.URL.Query()["id"]
+	if ok {
+		data := coupon.Update(id)
+		res.WriteHeader(http.StatusCreated)
+		json.NewEncoder(res).Encode(data)
+	}
+}
+
 func ReadAll(res http.ResponseWriter, req *http.Request) {
 	data := coupon.ReadAll()
 	res.Header().Set("Content-Type", "application/json")
@@ -60,7 +69,7 @@ func Read(res http.ResponseWriter, req *http.Request) {
 
 }
 
-func Add(res http.ResponseWriter, req *http.Request) {
+func Create(res http.ResponseWriter, req *http.Request) {
 	name, ok := req.URL.Query()["name"]
 	if !ok {
 		fmt.Println("Error: Missing parameter 'name'.")
@@ -93,7 +102,7 @@ func Add(res http.ResponseWriter, req *http.Request) {
 		os.Exit(1)
 	}
 
-	data := coupon.Add(name[0], brand[0], value, created[0], expiry[0])
+	data := coupon.Create(name[0], brand[0], value, created[0], expiry[0])
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
 	json.NewEncoder(res).Encode(data)

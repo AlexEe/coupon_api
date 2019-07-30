@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func Add(name string, brand string, value float64, created string, expiry string) Coupon {
+func Create(name string, brand string, value float64, created string, expiry string) Coupon {
 	cp := Coupon{
 		Name:      name,
 		Brand:     brand,
