@@ -12,6 +12,7 @@ type config struct {
 	User       string
 	Password   string
 	DbName     string
+	Table      string
 }
 
 func Open() (*sql.DB, error) {
@@ -41,19 +42,33 @@ func Open() (*sql.DB, error) {
 
 	// Create database if it doesn't exist
 	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS " + conf.DbName)
-	if err != nil {
-		panic(err)
-	}
+	checkErr(err, "Error creating new database: ")
 	db.Close()
 
-	// Connect to selected database
+	// Open new database
 	dbConnection := fmt.Sprintf("%s:%s@tcp(%s)/%s", conf.User, conf.Password, conf.ServerName, conf.DbName)
 	db, err = sql.Open("mysql", dbConnection)
 	if err != nil {
-		fmt.Println("Error opening database:", err)
-		os.Exit(1)
+		checkErr(err, "Error opening new database: ")
 		return nil, err
 	}
 
+	// Use new database
+	_, err = db.Exec("USE " + conf.DbName)
+	checkErr(err, "Error using database: ")
+
+	// Create table if it doesn't exist
+	stmt, err := db.Prepare("CREATE TABLE IF NOT EXISTS " + conf.Table)
+	checkErr(err, "Error creating table: ")
+	_, err = stmt.Exec()
+	checkErr(err, "Error creating table: ")
+
 	return db, nil
+}
+
+func checkErr(err error, message string) {
+	if err != nil {
+		fmt.Println(message)
+		panic(err)
+	}
 }

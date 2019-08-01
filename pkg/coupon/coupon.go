@@ -8,3 +8,9 @@ type Coupon struct {
 	Expiry    string  `json:"expiry"`
 	ID        string  `json:"id"`
 }
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}

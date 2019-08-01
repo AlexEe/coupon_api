@@ -11,10 +11,20 @@ import (
 
 func Update(res http.ResponseWriter, req *http.Request) {
 	id, ok := req.URL.Query()["id"]
-	if ok {
-		data := coupon.Update(id)
-		res.WriteHeader(http.StatusCreated)
-		json.NewEncoder(res).Encode(data)
+	switch ok {
+	case true:
+		valueString, ok := req.URL.Query()["value"]
+		if ok {
+			value, _ := strconv.ParseFloat(valueString[0], 32)
+			data := coupon.UpdateValue(id[0], value)
+			// io.WriteString(res, "Coupon updated")
+			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(http.StatusCreated)
+			json.NewEncoder(res).Encode(data)
+		}
+	default:
+		fmt.Println("Error: Missing parameter 'id'.")
+		os.Exit(1)
 	}
 }
 
