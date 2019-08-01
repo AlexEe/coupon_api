@@ -12,6 +12,7 @@ func main() {
 	http.HandleFunc("/read", handler.Read)
 	http.HandleFunc("/create", handler.Create)
 	http.HandleFunc("/update", handler.Update)
+	http.HandleFunc("/delete", handler.Delete)
 
 	http.ListenAndServe(":8080", nil)
 }

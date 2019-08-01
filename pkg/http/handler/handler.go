@@ -9,6 +9,42 @@ import (
 	"strconv"
 )
 
+// Delete deletes one or more coupons based on
+// information provided through URL input
+// Then redirects to all available coupons
+func Delete(res http.ResponseWriter, req *http.Request) {
+	valueString, ok := req.URL.Query()["value"]
+	if ok {
+		value, _ := strconv.ParseFloat(valueString[0], 32)
+		coupon.DeleteByValue("value", value)
+		http.Redirect(res, req, "/readall", 301)
+	}
+
+	name, ok := req.URL.Query()["name"]
+	if ok {
+		coupon.Delete("name", name[0])
+		http.Redirect(res, req, "/readall", 301)
+	}
+
+	brand, ok := req.URL.Query()["brand"]
+	if ok {
+		coupon.Delete("brand", brand[0])
+		http.Redirect(res, req, "/readall", 301)
+	}
+
+	created, ok := req.URL.Query()["created"]
+	if ok {
+		coupon.Delete("created", created[0])
+		http.Redirect(res, req, "/readall", 301)
+	}
+
+	expiry, ok := req.URL.Query()["expiry"]
+	if ok {
+		coupon.Delete("expiry", expiry[0])
+		http.Redirect(res, req, "/readall", 301)
+	}
+}
+
 // Update handler updates one coupon column by id and
 // returns updated coupon in json
 func Update(res http.ResponseWriter, req *http.Request) {
@@ -112,7 +148,6 @@ func Read(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusCreated)
 		json.NewEncoder(res).Encode(data)
 	}
-
 }
 
 // Create creates a new coupon based on URL input
