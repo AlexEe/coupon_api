@@ -1,5 +1,7 @@
 package coupon
 
+import "fmt"
+
 type Coupon struct {
 	Name      string  `json:"name"`
 	Brand     string  `json:"brand"`
@@ -9,8 +11,9 @@ type Coupon struct {
 	ID        string  `json:"id"`
 }
 
-func checkErr(err error) {
+func checkErr(err error, message string) {
 	if err != nil {
+		fmt.Println(message)
 		panic(err)
 	}
 }

@@ -9,6 +9,8 @@ import (
 	"strconv"
 )
 
+// Update handler updates one coupon column by id and
+// returns updated coupon in json
 func Update(res http.ResponseWriter, req *http.Request) {
 	id, ok := req.URL.Query()["id"]
 	switch ok {
@@ -17,17 +19,50 @@ func Update(res http.ResponseWriter, req *http.Request) {
 		if ok {
 			value, _ := strconv.ParseFloat(valueString[0], 32)
 			data := coupon.UpdateValue(id[0], value)
-			// io.WriteString(res, "Coupon updated")
 			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(http.StatusCreated)
 			json.NewEncoder(res).Encode(data)
 		}
+
+		name, ok := req.URL.Query()["name"]
+		if ok {
+			data := coupon.Update(id[0], "name", name[0])
+			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(http.StatusCreated)
+			json.NewEncoder(res).Encode(data)
+		}
+
+		brand, ok := req.URL.Query()["brand"]
+		if ok {
+			data := coupon.Update(id[0], "brand", brand[0])
+			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(http.StatusCreated)
+			json.NewEncoder(res).Encode(data)
+		}
+
+		created, ok := req.URL.Query()["created"]
+		if ok {
+			data := coupon.Update(id[0], "created", created[0])
+			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(http.StatusCreated)
+			json.NewEncoder(res).Encode(data)
+		}
+
+		expiry, ok := req.URL.Query()["expiry"]
+		if ok {
+			data := coupon.Update(id[0], "expiry", expiry[0])
+			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(http.StatusCreated)
+			json.NewEncoder(res).Encode(data)
+		}
+
 	default:
 		fmt.Println("Error: Missing parameter 'id'.")
 		os.Exit(1)
 	}
 }
 
+// ReadAll returns all stored coupons
 func ReadAll(res http.ResponseWriter, req *http.Request) {
 	data := coupon.ReadAll()
 	res.Header().Set("Content-Type", "application/json")
@@ -35,6 +70,7 @@ func ReadAll(res http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(res).Encode(data)
 }
 
+// Read returns all coupons with a specific identifier
 func Read(res http.ResponseWriter, req *http.Request) {
 	valueString, ok := req.URL.Query()["value"]
 	if ok {
@@ -79,13 +115,13 @@ func Read(res http.ResponseWriter, req *http.Request) {
 
 }
 
+// Create creates a new coupon based on URL input
 func Create(res http.ResponseWriter, req *http.Request) {
 	name, ok := req.URL.Query()["name"]
 	if !ok {
 		fmt.Println("Error: Missing parameter 'name'.")
 		os.Exit(1)
 	}
-	// io.WriteString(res, name[0])
 
 	brand, ok := req.URL.Query()["brand"]
 	if !ok {

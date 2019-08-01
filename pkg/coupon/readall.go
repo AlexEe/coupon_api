@@ -3,17 +3,13 @@ package coupon
 import (
 	"coupon_api/pkg/storage/db"
 	"fmt"
-	"os"
 )
 
 func ReadAll() []Coupon {
 	var couponList []Coupon
 
 	db, err := db.Open()
-	if db == nil || err != nil {
-		fmt.Println("Error opening database:", err)
-		os.Exit(1)
-	}
+	checkErr(err, "Error opening database: ")
 
 	result, err := db.Query("SELECT * FROM coupons")
 	for result.Next() {
