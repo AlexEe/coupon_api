@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func Create(name string, brand string, value float64, created string, expiry string) Coupon {
+func Create(name string, brand string, value float64, created string, expiry string) (Coupon, error) {
 	cp := Coupon{
 		Name:      name,
 		Brand:     brand,
@@ -24,5 +24,5 @@ func Create(name string, brand string, value float64, created string, expiry str
 	checkErr(err, "Error inserting values into database: ")
 
 	defer insert.Close()
-	return cp
+	return cp, err
 }

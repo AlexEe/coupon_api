@@ -3,17 +3,31 @@ package coupon
 import "testing"
 
 func TestCreate(t *testing.T) {
-	type testCoupon struct {
-		name    string
-		brand   string
-		value   float64
-		created string
-		expiry  string
+	test := Coupon{
+		ID:        "free food",
+		Brand:     "Mac",
+		Value:     20.2,
+		CreatedAt: "2019-10-13",
+		Expiry:    "2019-10-14",
 	}
 
-	test := testCoupon{"free food", "Mac", 20.2, "2019-10-13", "2019-10-14"}
-	coupon := Create(test.name, test.brand, test.value, test.created, test.expiry)
-	if coupon.Name != test.name {
-		t.Error("Expected", test.name, "Got", coupon.Name)
+	coupon, err := Create(test.Name, test.Brand, test.Value, test.CreatedAt, test.Expiry)
+	if coupon.Name != test.Name {
+		t.Error("Expected", test.Name, "Got", coupon.Name)
+	}
+	if coupon.Brand != test.Brand {
+		t.Error("Expected", test.Name, "Got", coupon.Name)
+	}
+	if coupon.Value != test.Value {
+		t.Error("Expected", test.Value, "Got", coupon.Value)
+	}
+	if coupon.CreatedAt != test.CreatedAt {
+		t.Error("Expected", test.CreatedAt, "Got", coupon.CreatedAt)
+	}
+	if coupon.Expiry != test.Expiry {
+		t.Error("Expected", test.Expiry, "Got", coupon.Expiry)
+	}
+	if err != nil {
+		t.Error("Expected err == nil Got", err)
 	}
 }

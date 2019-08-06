@@ -4,6 +4,7 @@ import (
 	"coupon_api/pkg/coupon"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -183,8 +184,15 @@ func Create(res http.ResponseWriter, req *http.Request) {
 		os.Exit(1)
 	}
 
-	data := coupon.Create(name[0], brand[0], value, created[0], expiry[0])
+	data, err := coupon.Create(name[0], brand[0], value, created[0], expiry[0])
+	checkErr(err, "Error passing coupon to handler: ")
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
 	json.NewEncoder(res).Encode(data)
+}
+
+func checkErr(err error, message string) {
+	if err != nil {
+		log.Fatalln(message, err)
+	}
 }

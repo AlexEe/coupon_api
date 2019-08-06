@@ -16,6 +16,5 @@ type Coupon struct {
 func checkErr(err error, message string) {
 	if err != nil {
 		log.Fatalln(message, err)
-		// fmt.Println(message, err)
 	}
 }

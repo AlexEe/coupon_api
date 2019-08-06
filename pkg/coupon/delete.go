@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func Delete(column string, content string) {
+func Delete(column string, content string) error {
 	db, err := db.Open()
 	checkErr(err, "Error opening database: ")
 	defer db.Close()
@@ -17,9 +17,11 @@ func Delete(column string, content string) {
 
 	_, err = stmt.Exec(content)
 	checkErr(err, "Error executing query statement: ")
+
+	return err
 }
 
-func DeleteByValue(column string, content float64) {
+func DeleteByValue(column string, content float64) error {
 	db, err := db.Open()
 	checkErr(err, "Error opening database: ")
 	defer db.Close()
@@ -31,4 +33,6 @@ func DeleteByValue(column string, content float64) {
 
 	_, err = stmt.Exec(content)
 	checkErr(err, "Error executing query statement: ")
+
+	return err
 }
