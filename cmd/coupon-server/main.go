@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+
 	http.HandleFunc("/readall", handler.ReadAll)
 	http.HandleFunc("/read", handler.Read)
 	http.HandleFunc("/create", handler.Create)

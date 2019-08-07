@@ -1,6 +1,7 @@
 package coupon
 
 import (
+	"fmt"
 	"log"
 )
 
@@ -17,4 +18,12 @@ func checkErr(err error, message string) {
 	if err != nil {
 		log.Fatalln(message, err)
 	}
+}
+
+func createErr(err error, message string) error {
+	if err != nil {
+		err := fmt.Errorf(message, err)
+		return err
+	}
+	return nil
 }

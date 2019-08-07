@@ -2,6 +2,7 @@ package handler
 
 import (
 	"coupon_api/pkg/coupon"
+	"coupon_api/pkg/storage/db"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -184,7 +185,12 @@ func Create(res http.ResponseWriter, req *http.Request) {
 		os.Exit(1)
 	}
 
-	data, err := coupon.Create(name[0], brand[0], value, created[0], expiry[0])
+	// Open up our database connection.
+	db, err := db.Open()
+	checkErr(err, "Error opening database: ")
+	defer db.Close()
+
+	data, err := coupon.Create(db, name[0], brand[0], value, created[0], expiry[0])
 	checkErr(err, "Error passing coupon to handler: ")
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
