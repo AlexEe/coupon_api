@@ -50,6 +50,7 @@ func Open() (*sql.DB, error) {
 	checkErr(err, "Error using database:")
 
 	// Create table if it doesn't exist
+	// "coupons(id INT(10) NOT NULL AUTO_INCREMENT, name VARCHAR(150) NOT NULL, brand VARCHAR(150) NOT NULL, value DECIMAL(6,2) NOT NULL, created DATE NOT NULL, expiry DATE NOT NULL, PRIMARY KEY (id));"
 	stmt, err := db.Prepare("CREATE TABLE IF NOT EXISTS " + conf.Table)
 	checkErr(err, "Error creating table:")
 	_, err = stmt.Exec()
