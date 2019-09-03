@@ -24,7 +24,9 @@ func TestShouldCreateCoupon(t *testing.T) {
 
 	// Prepare mock database with SQL command executed in function
 	query := "INSERT INTO coupons \\(name, brand, value, created, expiry\\) VALUES \\( \\?, \\?, \\?, \\?, \\? \\)"
-	mock.ExpectPrepare(query).ExpectExec().WithArgs(test.Name, test.Brand, test.Value, test.CreatedAt, test.Expiry).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectPrepare(query).ExpectExec().
+		WithArgs(test.Name, test.Brand, test.Value, test.CreatedAt, test.Expiry).
+		WillReturnResult(sqlmock.NewResult(1, 1)) // 1 insert id, 1 affected row
 
 	// Test actual function with mock database
 	if _, err := Create(db, test.Name, test.Brand, test.Value, test.CreatedAt, test.Expiry); err != nil {

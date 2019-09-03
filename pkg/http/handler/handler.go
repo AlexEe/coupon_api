@@ -15,34 +15,39 @@ import (
 // information provided through URL input
 // Then redirects to all available coupons
 func Delete(res http.ResponseWriter, req *http.Request) {
+	// Open up our database connection.
+	db, err := db.Open()
+	checkErr(err, "Error opening database: ")
+	defer db.Close()
+
 	valueString, ok := req.URL.Query()["value"]
 	if ok {
 		value, _ := strconv.ParseFloat(valueString[0], 32)
-		coupon.DeleteByValue("value", value)
+		coupon.DeleteByValue(db, "value", value)
 		http.Redirect(res, req, "/readall", 301)
 	}
 
 	name, ok := req.URL.Query()["name"]
 	if ok {
-		coupon.Delete("name", name[0])
+		coupon.Delete(db, "name", name[0])
 		http.Redirect(res, req, "/readall", 301)
 	}
 
 	brand, ok := req.URL.Query()["brand"]
 	if ok {
-		coupon.Delete("brand", brand[0])
+		coupon.Delete(db, "brand", brand[0])
 		http.Redirect(res, req, "/readall", 301)
 	}
 
 	created, ok := req.URL.Query()["created"]
 	if ok {
-		coupon.Delete("created", created[0])
+		coupon.Delete(db, "created", created[0])
 		http.Redirect(res, req, "/readall", 301)
 	}
 
 	expiry, ok := req.URL.Query()["expiry"]
 	if ok {
-		coupon.Delete("expiry", expiry[0])
+		coupon.Delete(db, "expiry", expiry[0])
 		http.Redirect(res, req, "/readall", 301)
 	}
 }

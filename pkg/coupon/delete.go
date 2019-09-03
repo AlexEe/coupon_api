@@ -1,15 +1,11 @@
 package coupon
 
 import (
-	"coupon_api/pkg/storage/db"
+	"database/sql"
 	"fmt"
 )
 
-func Delete(column string, content string) error {
-	db, err := db.Open()
-	checkErr(err, "Error opening database: ")
-	defer db.Close()
-
+func Delete(db *sql.DB, column string, content string) error {
 	query := fmt.Sprintf("delete from coupons where %v=?", column)
 
 	stmt, err := db.Prepare(query)
@@ -21,11 +17,7 @@ func Delete(column string, content string) error {
 	return err
 }
 
-func DeleteByValue(column string, content float64) error {
-	db, err := db.Open()
-	checkErr(err, "Error opening database: ")
-	defer db.Close()
-
+func DeleteByValue(db *sql.DB, column string, content float64) error {
 	query := fmt.Sprintf("delete from coupons where %v=?", column)
 
 	stmt, err := db.Prepare(query)
